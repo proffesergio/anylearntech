@@ -15,4 +15,9 @@ A simple blogging web app where a user can-
  
  -> View all available posts on the site created by other users
 
+## LANDING PAGE
+
 ![landing page image](./media/anylearnblog.png)
+
+## CREATE A NEW POST
+![create a post](./media/addpost.png)
