@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Title | Base</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% include 'snippets/header.html' %}
+
+  </head>
+  <hr>
+  <body>
+    <!-- Body -->
+    <style type="text/css">
+      .main_contents {
+        min-height: 100vh;
+        height: 100%;
+      }
+    </style>
+
+    <div class="main-contents">
+      {% block content %}      <!-- //these are called django blocks -->
+
+
+      {% endblock content %}
+    </div>
+    <!-- End Body -->
+
+
+  </body>
+<hr>
+{% include 'snippets/footer.html' %}
+{% include 'snippets/base_css.html' %}
+</html>

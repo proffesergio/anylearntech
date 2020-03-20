@@ -1,0 +1,94 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" src="styles/blog.css" type="text/css">
+
+
+
+<style type="text/css">
+	@media (min-width: 768px) {
+	  html {
+	    font-size: 16px;
+	  }
+	}
+
+	.search-bar{
+		max-width: 500px;
+		width: 100%;
+	}
+	form{
+		width: 100%;
+	}
+
+	.site-header {
+	  background-color: rgba(0, 0, 0, .85);
+	  -webkit-backdrop-filter: saturate(180%) blur(20px);
+	  backdrop-filter: saturate(180%) blur(20px);
+	}
+	.site-header a {
+	  color: #999;
+	  transition: ease-in-out color .15s;
+	}
+	.site-header a:hover {
+	  color: #fff;
+	  text-decoration: none;
+	}
+
+</style>
+
+<div class="container">
+  <header class="blog-header py-3">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+      <div class="col-4 pt-1">
+        {% if request.user.is_authenticated %}
+          <a class="text-muted" href="#"><p><span class="fa fa-leanpub"> Hello, {{request.user.username}}</span></p></a>
+        {% else %}
+        <a class="text-muted" href="#"><span class="fa fa-leanpub"> Learning Alert!</span></a>
+        {% endif %}
+
+      </div>
+      <div class="col-4 text-center">
+        <a class="blog-header-logo text-dark" href="{% url 'home' %}"><h5>AnyLearn.Tech</h5></a>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-center">
+        <div class="text-muted search-bar mt-sm-2 mr-2">
+        	<form method="get">
+        		<input class="form-control"  type="text" name="q" id="id_q" placeholder="Search...">
+        	</form>
+        </div>
+
+        {% if request.user.is_authenticated %}
+          <div class="col-4 d-flex justify-content align-items-center">
+						<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:create' %}">Add Post</a>
+					</div>
+        {% else %}
+          <a class="btn btn-sm btn-secondary" role="button" href="{% url 'login' %}"> Login</a>
+          <a style="margin-left:10px;" class="btn btn-sm btn-outline-info" role="button" href="{% url 'register' %}">Register</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+		<nav class="site-header sticky-top py-1">
+		  <div class="container d-flex flex-column flex-md-row justify-content-between">
+		    <a class="py-2" href="#" aria-label="Product">
+		      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg>
+		    </a>
+				{% if request.user.is_authenticated %}
+					
+							<a class="py-2 d-none d-md-inline-block" href="{% url 'home' %}"> Home </a>
+							<a class="py-2 d-none d-md-inline-block" href="{% url 'account' %}"> Account </a>
+							<a class="py-2 d-none d-md-inline-block" href="{% url 'logout' %}"> Log out </a>
+
+				{% else %}
+
+						<a class="py-2 d-none d-md-inline-block" href="{% url 'home' %}">Home</a>
+						<a class="py-2 d-none d-md-inline-block" href="{% url 'register' %}"> Register </a>
+						<a class="py-2 d-none d-md-inline-block" href="{% url 'login' %}"> Login </a>
+
+				{% endif %}
+		  </div>
+		</nav>
+
+  <script type="text/javascript">
+  	document.getElementById("id_q").value = "{{query}}"
+  </script>
