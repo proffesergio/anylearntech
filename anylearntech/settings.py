@@ -21,13 +21,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'rm73+^wi8hege@po^3vq$p_3g7fet8k8b%d2#*2_-tu4)=w@i$'
+# SECRET_KEY = 'rm73+^wi8hege@po^3vq$p_3g7fet8k8b%d2#*2_-tu4)=w@i$'
 # SECRET_KEY = os.environ.get('SECRET_KEY')
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'rm73+^wi8hege@po^3vq$p_3g7fet8k8b%d2#*2_-tu4)=w@i$')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['cryptic-beach-86791.herokuapp.com']
+# DEBUG = False
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+ALLOWED_HOSTS = ['anylearnblog.herokuapp.com']
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.EmailBackend' #Only for during development environment
@@ -52,6 +55,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -131,13 +135,30 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'media'),
-]
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+#     os.path.join(BASE_DIR, 'media'),
+# ]
+# STATIC_URL = '/static/'
+# MEDIA_URL = '/media/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
+
+# The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
 
+# The URL to use when referring to static files (where they will be served from)
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
 django_heroku.settings(locals())
+
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
